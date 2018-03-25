@@ -9,13 +9,16 @@ sec_session_start();
     <head>
         <meta charset="UTF-8">
         <title>Homepage</title>
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <!-- <link rel="stylesheet" type="text/css" href="css/style.css" /> -->
+        <link rel="stylesheet" type="text/css" href="css/supreme.css" />
     </head>
     <body>
+		<?php include "includes/header.php"?>
 		<?php include "includes/menu.php"?>
 			<!--<img class="center" src="Image/image-1.png" alt="picture"/>-->
 
         <?php if (login_check($mysqli) == true) : ?>
+            <div id="main_M">
             <p>Welcome <?php echo htmlentities($_SESSION['username']); ?>!</p>
 			<br>
 			<br>
@@ -79,5 +82,6 @@ sec_session_start();
                 <span class="error">You are not authorized to access this page.</span> Please <a href="index.php">login</a>.
             </p>
         <?php endif; ?>
+        </div>
     </body>
 </html>
