@@ -4,6 +4,7 @@ function logIP()
 {
      $ipLog="logfile.htm"; // Your logfiles name here (.txt or .html extensions ok)
 
+     // https://www.sitepoint.com/community/t/simple-ip-logging-script/4042/2
      // IP logging function by Dave Lauderdale
      // Originally published at: www.digi-dl.com
 
