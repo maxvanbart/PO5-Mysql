@@ -56,99 +56,74 @@ if(isset($_POST['Submit'])) {
         echo "<br/><a href='javascript:self.history.back();'>Go Back</a>";
 	} else {
 		 
-		$controlle=mysqli_query($mysqli,"select * from film where titel='$titel'");
-    	$controllerows=mysqli_num_rows($controlle);
+		$controlle1=mysqli_query($mysqli,"select * from film where titel='$titel'");
+    	$controllerows1=mysqli_num_rows($controlle1);
 		
-		if($controllerows>0) {
+		if($controllerows1>0) {
       		echo "film exists";
-   		} else {
- 
+   		}else{
         	$a = mysqli_query($mysqli, "INSERT IGNORE INTO film(titel,leeftijdscategorienummer,imdblink) VALUES('$titel','$ln','$link')");
-			//printf ("New Record has id %d.\n", $mysqli->insert_id);
 			$idfilm = $mysqli->insert_id;
-			echo "film" .$idfilm;
+			echo "filmid" .$idfilm;
+				$controlle2=mysqli_query($mysqli,"select * from acteur where acteurachternaam='$aa' and acteurvoornaam='$av'");
+		    	$controllerows2=mysqli_num_rows($controlle2);
+				
+				if($controllerows2>0) {
+		      		echo "acteur exists";
+					$result2 = mysqli_query($mysqli,"SELECT acteurnummer FROM acteur WHERE acteurachternaam='$aa' AND acteurvoornaam='$av'");
+			   		$row = mysqli_fetch_assoc($result2);
+			   		$row2 = implode(" ",$row);	
+			   		
+			   		$bb = mysqli_query($mysqli,"INSERT INTO filmacteur(filmnummer,acteurnummer) VALUES('$idfilm','$row2')");
+			   		echo "id".$row4."<br>acteurnummer".$row2;
+			        echo "<font color='green'>Data added successfully.";		  		
+		   		} else {
+		        	$b = mysqli_query($mysqli, "INSERT INTO acteur(acteurvoornaam,acteurachternaam) VALUES('$av','$aa')");
+					$idacteur = $mysqli->insert_id;
+					$bb = mysqli_query($mysqli,"INSERT INTO filmacteur(filmnummer, acteurnummer) VALUES('$idfilm','$idacteur')");
+					echo "acteur " .$idacteur;
+		   		}		
+		   		
+				$controlle3=mysqli_query($mysqli,"select * from regisseur where regisseurachternaam='$ra' and regisseurvoornaam='$rv'");
+		    	$controllerows3=mysqli_num_rows($controlle3);
+				
+				if($controllerows3>0) {
+		      		echo "regisseur exists";
+					$result3 = mysqli_query($mysqli,"SELECT regisseurnummer FROM regisseur WHERE regisseurachternaam='$ra' AND regisseurvoornaam='$rv'");
+			   		$row3 = mysqli_fetch_assoc($result3);
+			   		$row4 = implode(" ",$row3);	
+			   		
+			   		$bb = mysqli_query($mysqli,"INSERT INTO filmregisseur(filmnummer,regisseurnummer) VALUES('$idfilm','$row4')");
+			   		echo "id".$idfilm."<br>regisseurnummer".$row4;
+			        echo "<font color='green'>Data added successfully.";	
+		   		} else {
+		        	$c = mysqli_query($mysqli, "INSERT INTO regisseur(regisseurvoornaam,regisseurachternaam) VALUES('$rv','$ra')");	
+					$idregisseur = $mysqli->insert_id;
+					$cc = mysqli_query($mysqli,"INSERT INTO filmregisseur(filmnummer, regisseurnummer) VALUES('$idfilm','$idregisseur')");
+					echo "regisseur " .$idregisseur;
+		   		}
+		   			
+				$controlle4=mysqli_query($mysqli,"select * from genre where genrenaam='$genren'");
+		    	$controllerows4=mysqli_num_rows($controlle4);
+				
+				if($controllerows4>0) {
+		      		echo "genre exists";
+			  		$result4 = mysqli_query($mysqli,"SELECT genrenummer FROM genre WHERE genrenaam='$genren'");
+		   			$row5 = mysqli_fetch_assoc($result4);
+		   			$row6 = implode(" ",$row5);
+		   			
+		 			$e = mysqli_query($mysqli, "INSERT INTO filmgenre(filmnummer,genrenummer) VALUES('$idfilm','$row6')");
+		 			echo $idfilm."<br>".$row6;
+		 			echo "<font color='green'>Data added successfully in filmgenre.";
+		   		} else {
+					$d = mysqli_query($mysqli, "INSERT INTO genre(genrenaam) VALUES('$genren')");
+					$idgenre = $mysqli->insert_id;
+					$dd = mysqli_query($mysqli,"INSERT INTO filmgenre(filmnummer, genrenummer) VALUES('$idfilm','$idgenre')");
+					echo "genre " .$idgenre;
+		   		}
+		   		//display success message
+        		echo "<font color='green'>Data added successfully.";
    		}
-   		    
-		$controlle=mysqli_query($mysqli,"select * from acteur where acteurachternaam='$aa' and acteurvoornaam='$av'");
-    	$controllerows=mysqli_num_rows($controlle);
-		
-		if($controllerows>0) {
-      		echo "acteur exists";
-   		} else {
-			$b = mysqli_query($mysqli, "INSERT IGNORE INTO acteur(acteurvoornaam,acteurachternaam) VALUES('$av','$aa')");
-			//printf ("New Record has id %d.\n", $mysqli->insert_id);		
-			$idacteur = $mysqli->insert_id;
-			echo "acteur " .$idacteur;	
-   		}		
-   		
-		$controlle=mysqli_query($mysqli,"select * from regisseur where regisseurachternaam='$ra' and regisseurvoornaam='$rv'");
-    	$controllerows=mysqli_num_rows($controlle);
-		
-		if($controllerows>0) {
-      		echo "regisseur exists";
-   		} else {
-        	$c = mysqli_query($mysqli, "INSERT INTO regisseur(regisseurvoornaam,regisseurachternaam) VALUES('$rv','$ra')");
-			//printf ("New Record has id %d.\n", $mysqli->insert_id);	
-			$idregisseur = $mysqli->insert_id;
-			echo "regisseur " .$idregisseur;
-   		}
-   			
-		$controlle=mysqli_query($mysqli,"select * from genre where genrenaam='$genren'");
-    	$controllerows=mysqli_num_rows($controlle);
-		
-		if($controllerows>0) {
-      		echo "genre exists";
-   		} else {
-			$d = mysqli_query($mysqli, "INSERT INTO genre(genrenaam) VALUES('$genren')");
-			printf ("New Record has id %d.\n", $mysqli->insert_id);
-			$idgenre = $mysqli->insert_id;
-			echo "genre " .$idgenre;
-   		}
-   			
-   		$controlle=mysqli_query($mysqli,"select * from filmgenre where filmnummer='$idfilm' and genrenummer='$idgenre'");
-    	$controllerows=mysqli_num_rows($controlle);
-		
-   		if($controllerows>0) {
-      		echo "genre exists";
-   		} else {
-			$e = mysqli_query($mysqli, "INSERT INTO filmwaarschuwing(waarschuwingsnummer,filmnummer) VALUES('$waarschuwing','$idfilm')");		
-			printf ("New Record has id %d.\n", $mysqli->insert_id);
-   		}
-   		
-   		$controlle=mysqli_query($mysqli,"select * from filmacteur where filmnummer='$idfilm' and acteurnummer='$idacteur'");
-    	$controllerows=mysqli_num_rows($controlle);
-		
-   		if($controllerows>0) {
-      		echo "genre exists";
-   		} else {
-			$f = mysqli_query($mysqli, "INSERT INTO filmacteur(filmnummer,acteurnummer) VALUES('$idfilm','$idacteur')");
-			printf ("New Record has id %d.\n", $mysqli->insert_id);
-   		}
-   		
-   		$controlle=mysqli_query($mysqli,"select * from filmregisseur where filmnummer='$idfilm' and regisseurnummer='$idregisseur'");
-    	$controllerows=mysqli_num_rows($controlle);
-		
-   		if($controllerows>0) {
-      		echo "genre exists";
-   		} else {
-			$g = mysqli_query($mysqli, "INSERT INTO filmregisseur(filmnummer,regisseurnummer) VALUES('$idfilm','$idregisseur')");
-			printf ("New Record has id %d.\n", $mysqli->insert_id);
-   		}
-   		
-     	$controlle=mysqli_query($mysqli,"select * from filmgenre where filmnummer='$idfilm' and genrenummer='$idgenre'");
-    	$controllerows=mysqli_num_rows($controlle);
-		
-   		if($controllerows>0) {
-      		echo "genre exists";
-   		} else {
-			$h = mysqli_query($mysqli, "INSERT INTO filmgenre(filmnummer,genrenummer) VALUES('$idfilm','$idgenre')");
-			printf ("New Record has id %d.\n", $mysqli->insert_id);
-   		}
-   		
-
-			
-		//display success message
-        echo "<font color='green'>Data added successfully.";
         echo "<br/><a href='gegevens.php'>View Result</a>";
     }
 }
