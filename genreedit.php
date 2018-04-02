@@ -1,6 +1,8 @@
 <?php
 // including the database connection file
 include_once("includes/db_connect.php");
+include_once 'includes/functions.php';
+sec_session_start();
  
 if(isset($_POST['update']))
 {    
@@ -16,7 +18,7 @@ if(isset($_POST['update']))
         
     } else {    
         //updating the table
-        $result = mysqli_query($mysqli, "UPDATE genre SET genre='$ge' WHERE genrenummer=$gn");
+        $result = mysqli_query($mysqli, "UPDATE genre SET genrenaam='$ge' WHERE genrenummer=$gn");
         
         //redirectig to the display page. In our case, it is index.php
         header("Location: gegevens.php");
@@ -32,7 +34,7 @@ $result = mysqli_query($mysqli, "SELECT * FROM genre WHERE genrenummer=$gn");
  
 while($res = mysqli_fetch_array($result))
 {
-    $ge = $res['genre'];
+    $ge = $res['genrenaam'];
 }
 ?>
 <html>
@@ -41,6 +43,7 @@ while($res = mysqli_fetch_array($result))
 </head>
  
 <body>
+<?php if (login_check($mysqli) == true) : ?>
     <a href="gegevens.php">Home</a>
     <br/><br/>
 	
@@ -49,7 +52,7 @@ while($res = mysqli_fetch_array($result))
         <table border="0">
             <tr> 
                 <td>Genre</td>
-                <td><input type="text" name="genre" value="<?php echo $ge;?>"></td>
+                <td><input type="text" name="genre" value="<?php echo $ge; ?>"></td>
             </tr>
             <tr>
                 <td><input type="hidden" name="genrenummer" value=<?php echo $_GET['gn'];?>></td>
@@ -57,5 +60,10 @@ while($res = mysqli_fetch_array($result))
             </tr>
         </table>
     </form>
+<?php else : ?>
+     <p>
+         <span class="error">You are not authorized to access this page.</span> Please <a href="index.php">login</a>.
+     </p>
+<?php endif; ?>
 </body>
 </html>

@@ -1,6 +1,8 @@
 <?php
 //including the database connection file
 include_once("includes/db_connect.php");
+include_once 'includes/functions.php';
+sec_session_start();
 ?>
 
 <html>
@@ -10,6 +12,7 @@ include_once("includes/db_connect.php");
 </head>
  
 <body>
+<?php if (login_check($mysqli) == true) : ?>
     <a href="gegevens.php">Home</a>
     <br/><br/>
  
@@ -29,7 +32,11 @@ include_once("includes/db_connect.php");
             </tr>
         </table>
     </form>
-
+<?php else : ?>
+     <p>
+         <span class="error">You are not authorized to access this page.</span> Please <a href="index.php">login</a>.
+     </p>
+<?php endif; ?>
 </body>
 </html>
 

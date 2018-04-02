@@ -1,6 +1,9 @@
 <?php
 //including the database connection file
 include_once("includes/db_connect.php");
+include_once 'includes/functions.php';
+sec_session_start();
+
 $result1 = mysqli_query($mysqli, "SELECT * FROM leeftijdscategorie");
 $result2 = mysqli_query($mysqli, "SELECT * FROM waarschuwing");
 ?>
@@ -12,6 +15,7 @@ $result2 = mysqli_query($mysqli, "SELECT * FROM waarschuwing");
 </head>
  
 <body>
+<?php if (login_check($mysqli) == true) : ?>
     <a href="gegevens.php">Home</a>
     <br/><br/>
  
@@ -91,6 +95,10 @@ $result2 = mysqli_query($mysqli, "SELECT * FROM waarschuwing");
 	</tbody>
     </table>
 	
-	
+<?php else : ?>
+    <p>
+      <span class="error">You are not authorized to access this page.</span> Please <a href="index.php">login</a>.
+    </p>
+<?php endif; ?>
 </body>
 </html>

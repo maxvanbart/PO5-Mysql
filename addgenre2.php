@@ -1,11 +1,17 @@
+<?php
+include_once("includes/db_connect.php");
+include_once 'includes/functions.php';
+sec_session_start();
+?>
+
 <html>
 <head>
     <title>Add Data</title>
 </head>
  
 <body>
+<?php if (login_check($mysqli) == true) : ?>
 <?php
-include_once("includes/db_connect.php");
  
 if(isset($_POST['Submit'])) {    
     $genren = $_POST['genrenaam'];
@@ -28,8 +34,8 @@ if(isset($_POST['Submit'])) {
         
 		$result2 = mysqli_query($mysqli,"SELECT genrenummer FROM genre WHERE genrenaam='$genren'");
    		$row3 = mysqli_fetch_assoc($result2);
-   		$row4 = implode(" ",$row3);		
-		$controlle=mysqli_query($mysqli,"select * from genre where genrenaam='$genren'");
+   		$row4 = implode(" ",$row3);
+   		$controlle = mysqli_query($mysqli,"SELECT * FROM genre WHERE genrenaam='$genren'");		
     	$controllerows=mysqli_num_rows($controlle);
 		
 		$result1 = mysqli_query($mysqli,"SELECT id FROM film WHERE titel='$film'");
@@ -73,5 +79,10 @@ if(isset($_POST['Submit'])) {
     }
 }
 ?>
+<?php else : ?>
+     <p>
+         <span class="error">You are not authorized to access this page.</span> Please <a href="index.php">login</a>.
+     </p>
+<?php endif; ?>
 </body>
 </html>
