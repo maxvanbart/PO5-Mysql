@@ -43,6 +43,7 @@ $row10 = implode(" ",$row3);
     <table>
 		<tbody>
 	        <tr bgcolor='#CCCCCC'>
+				<td>Picture</td>
 	            <td>Titel</td>
 	            <td>Leeftijdscategorienummer</td>
 	            <td>imdblink</td>
@@ -56,6 +57,7 @@ $row10 = implode(" ",$row3);
 		        //while($res = mysql_fetch_array($result)) { // mysql_fetch_array is deprecated, we need to use mysqli_fetch_array 
 		        while($res1 = mysqli_fetch_array($result1)) {         
 		            echo "<tr>";
+					echo "<td><img id='cover' src='Image/".$res1['image']."' ></td>";
 		            echo "<td>".$res1['titel']."</td>";
 		            echo "<td>".$res1['leeftijdscategorienummer']."</td>";
 		            echo "<td>".$res1['imdblink']."</td>";

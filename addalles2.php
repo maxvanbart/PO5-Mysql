@@ -24,9 +24,10 @@ if(isset($_POST['Submit'])) {
 	$rv = $_POST['regisseurvoornaam'];
 	$genren = $_POST['genrenaam'];
 	$waarschuwing = $_POST['waarschuwingsnummer'];
+	$image = $_FILES['image']['name'];
       
     // checking empty fields
-    if(empty($titel) || empty($ln)/* || empty($lc)*/ || empty($link) || empty($aa) || empty($av) || empty($ra) || empty($rv) || empty($genren)) {                
+    if(empty($titel) || empty($ln)/* || empty($lc)*/ || empty($link) || empty($aa) || empty($av) || empty($ra) || empty($rv) || empty($genren) || empty($image)) {                
         if(empty($titel)) {
             echo "<font color='red'>Titel field is empty.</font><br/>";
         }
@@ -68,9 +69,19 @@ if(isset($_POST['Submit'])) {
 		if($controllerows1>0) {
       		echo "film exists";
    		}else{
-        	$a = mysqli_query($mysqli, "INSERT IGNORE INTO film(titel,leeftijdscategorienummer,imdblink) VALUES('$titel','$ln','$link')");
+   			$image = $_FILES['image']['name'];
+			  	// image file directory
+			  	$target = "image/".basename($image);
+		
+			  	if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
+			  		$msg = "Image uploaded successfully";
+			  	}else{
+			  		$msg = "Failed to upload image";
+			  	}
+        	$a = mysqli_query($mysqli, "INSERT IGNORE INTO film(titel,leeftijdscategorienummer,imdblink,image) VALUES('$titel','$ln','$link','$image')");
 			$idfilm = $mysqli->insert_id;
 			echo "filmid" .$idfilm;
+			
 				$controlle2=mysqli_query($mysqli,"select * from acteur where acteurachternaam='$aa' and acteurvoornaam='$av'");
 		    	$controllerows2=mysqli_num_rows($controlle2);
 				
@@ -127,6 +138,7 @@ if(isset($_POST['Submit'])) {
 					$dd = mysqli_query($mysqli,"INSERT INTO filmgenre(filmnummer, genrenummer) VALUES('$idfilm','$idgenre')");
 					echo "genre " .$idgenre;
 		   		}
+		   		
 		   		//display success message
         		echo "<font color='green'>Data added successfully.";
    		}

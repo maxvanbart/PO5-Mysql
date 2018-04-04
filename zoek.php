@@ -2,6 +2,11 @@
 include_once("includes/db_connect.php");
 include_once 'includes/functions.php';
 sec_session_start();
+
+$username = $_SESSION['username'];
+$result5 = mysqli_query($mysqli, "SELECT premission_number FROM members WHERE username='$username'");
+$row3 = mysqli_fetch_assoc($result5);
+$row10 = implode(" ",$row3);
 ?>
 
 <html>
@@ -56,6 +61,7 @@ if(isset($_POST['Submit'])) {
 	   		echo "controllerow6 ".$controllerow6."<br>";*/
 	   		echo "<table>";
 				echo "<tr bgcolor='#CCCCCC'>";
+				echo "<td>Cover</td>";
 		        echo "<td>Titel</td>";
 		        echo "<td>leeftijdscategorie</td>";
 		        echo "<td>imdblink</td>";
@@ -72,6 +78,7 @@ if(isset($_POST['Submit'])) {
 					$result1 = mysqli_query($mysqli,"SELECT DISTINCT f.*, fr.*, fa.*, fg.*, r.*, a.*, g.*, lc.* FROM film f, filmregisseur fr, filmacteur fa, filmgenre fg, regisseur r, acteur a, genre g, leeftijdscategorie lc WHERE titel LIKE '%".$zoek."%' AND a.acteurnummer = fa.acteurnummer AND fa.filmnummer = f.id AND f.id = fr.filmnummer AND fr.regisseurnummer = r.regisseurnummer AND f.id = fg.filmnummer AND fg.genrenummer = g.genrenummer AND lc.leeftijdscategorienummer = f.leeftijdscategorienummer");	
 						while($res1 = mysqli_fetch_array($result1)) {         
 							echo "<tr>";
+							echo "<td><img id='cover' src='Image/".$res1['image']."' ></td>";
 				            echo "<td><b>".$res1['titel']."</b></td>";
 				            echo "<td>".$res1['leeftijdscategorie']."</td>";
 							//echo "<td><img src=".$res1['afbeelding']." alt=".$res1['leeftijdscategorie']."></td>";
@@ -90,6 +97,7 @@ if(isset($_POST['Submit'])) {
 						$result2 = mysqli_query($mysqli,"SELECT DISTINCT f.*, fr.*, fa.*, fg.*, r.*, a.*, g.*, lc.* FROM film f, filmregisseur fr, filmacteur fa, filmgenre fg, regisseur r, acteur a, genre g, leeftijdscategorie lc WHERE acteurvoornaam LIKE '%".$zoek."%' AND a.acteurnummer = fa.acteurnummer AND fa.filmnummer = f.id AND f.id = fr.filmnummer AND fr.regisseurnummer = r.regisseurnummer AND f.id = fg.filmnummer AND fg.genrenummer = g.genrenummer AND lc.leeftijdscategorienummer = f.leeftijdscategorienummer");	
 							while($res2 = mysqli_fetch_array($result2)) {         
 								echo "<tr>";
+								echo "<td><img id='cover' src='Image/".$res2['image']."' ></td>";
 					            echo "<td>".$res2['titel']."</td>";
 					            echo "<td>".$res2['leeftijdscategorie']."</td>";
 					            echo "<td><a href=".$res2['imdblink'].">imdb</a></td>";
@@ -107,6 +115,7 @@ if(isset($_POST['Submit'])) {
 						$result3 = mysqli_query($mysqli,"SELECT DISTINCT f.*, fr.*, fa.*, fg.*, r.*, a.*, g.*, lc.* FROM film f, filmregisseur fr, filmacteur fa, filmgenre fg, regisseur r, acteur a, genre g, leeftijdscategorie lc WHERE acteurachternaam LIKE '%".$zoek."%' AND a.acteurnummer = fa.acteurnummer AND fa.filmnummer = f.id AND f.id = fr.filmnummer AND fr.regisseurnummer = r.regisseurnummer AND f.id = fg.filmnummer AND fg.genrenummer = g.genrenummer AND lc.leeftijdscategorienummer = f.leeftijdscategorienummer");	
 							while($res3 = mysqli_fetch_array($result3)) {         
 								echo "<tr>";
+								echo "<td><img id='cover' src='Image/".$res3['image']."' ></td>";
 					            echo "<td>".$res3['titel']."</td>";
 					            echo "<td>".$res3['leeftijdscategorie']."</td>";
 					            echo "<td><a href=".$res3['imdblink'].">imdb</a></td>";
@@ -124,6 +133,7 @@ if(isset($_POST['Submit'])) {
 						$result4 = mysqli_query($mysqli,"SELECT DISTINCT f.*, fr.*, fa.*, fg.*, r.*, a.*, g.*, lc.* FROM film f, filmregisseur fr, filmacteur fa, filmgenre fg, regisseur r, acteur a, genre g, leeftijdscategorie lc WHERE regisseurvoornaam LIKE '%".$zoek."%' AND a.acteurnummer = fa.acteurnummer AND fa.filmnummer = f.id AND f.id = fr.filmnummer AND fr.regisseurnummer = r.regisseurnummer AND f.id = fg.filmnummer AND fg.genrenummer = g.genrenummer AND lc.leeftijdscategorienummer = f.leeftijdscategorienummer");	
 							while($res4 = mysqli_fetch_array($result4)) {         
 								echo "<tr>";
+								echo "<td><img id='cover' src='Image/".$res4['image']."' ></td>";
 					            echo "<td>".$res4['titel']."</td>";
 					            echo "<td>".$res4['leeftijdscategorie']."</td>";
 					            echo "<td><a href=".$res4['imdblink'].">imdb</a></td>";
@@ -141,6 +151,7 @@ if(isset($_POST['Submit'])) {
 						$result5 = mysqli_query($mysqli,"SELECT DISTINCT f.*, fr.*, fa.*, fg.*, r.*, a.*, g.*, lc.* FROM film f, filmregisseur fr, filmacteur fa, filmgenre fg, regisseur r, acteur a, genre g, leeftijdscategorie lc WHERE regisseurachternaam LIKE '%".$zoek."%' AND a.acteurnummer = fa.acteurnummer AND fa.filmnummer = f.id AND f.id = fr.filmnummer AND fr.regisseurnummer = r.regisseurnummer AND f.id = fg.filmnummer AND fg.genrenummer = g.genrenummer AND lc.leeftijdscategorienummer = f.leeftijdscategorienummer");	
 							while($res5 = mysqli_fetch_array($result5)) {         
 								echo "<tr>";
+								echo "<td><img id='cover' src='Image/".$res5['image']."' ></td>";
 					            echo "<td>".$res5['titel']."</td>";
 					            echo "<td>".$res5['leeftijdscategorie']."</td>";
 					            echo "<td><a href=".$res5['imdblink'].">imdb</a></td>";
@@ -158,6 +169,7 @@ if(isset($_POST['Submit'])) {
 						$result6 = mysqli_query($mysqli,"SELECT DISTINCT f.*, fr.*, fa.*, fg.*, r.*, a.*, g.*, lc.* FROM film f, filmregisseur fr, filmacteur fa, filmgenre fg, regisseur r, acteur a, genre g, leeftijdscategorie lc WHERE genrenaam LIKE '%".$zoek."%' AND a.acteurnummer = fa.acteurnummer AND fa.filmnummer = f.id AND f.id = fr.filmnummer AND fr.regisseurnummer = r.regisseurnummer AND f.id = fg.filmnummer AND fg.genrenummer = g.genrenummer AND lc.leeftijdscategorienummer = f.leeftijdscategorienummer");	
 							while($res6 = mysqli_fetch_array($result6)) {         
 								echo "<tr>";
+								echo "<td><img id='cover' src='Image/".$res6['image']."' ></td>";
 					            echo "<td>".$res6['titel']."</td>";
 					            echo "<td>".$res6['leeftijdscategorie']."</td>";
 					            echo "<td><a href=".$res6['imdblink'].">imdb</a></td>";

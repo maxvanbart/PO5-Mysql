@@ -10,10 +10,11 @@ if(isset($_POST['update']))
     
     $titel=$_POST['titel'];
     $lc=$_POST['leeftijdscategorienummer'];
-	$link=$_POST['imdblink'];    
+	$link=$_POST['imdblink'];
+	$image = $_FILES['image']['name'];    
     
     // checking empty fields
-    if(empty($titel) || empty($lc) || empty($link)) {            
+    if(empty($titel) || empty($lc) || empty($link) || empty($image)) {            
         if(empty($titel)) {
             echo "<font color='red'>Titel field is empty.</font><br/>";
         }
@@ -26,8 +27,15 @@ if(isset($_POST['update']))
         }            
     } else {    
         //updating the table
-        $result = mysqli_query($mysqli, "UPDATE film SET titel = '$titel', leeftijdscategorienummer = '$lc', imdblink = '$link' WHERE id = ".$id);
-        
+        $result = mysqli_query($mysqli, "UPDATE film SET titel = '$titel', leeftijdscategorienummer = '$lc', imdblink = '$link', image = '$image' WHERE id = ".$id);
+		  	// image file directory
+		  	$target = "image/".basename($image);
+	
+		  	if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
+		  		$msg = "Image uploaded successfully";
+		  	}else{
+		  		$msg = "Failed to upload image";
+		  	}
         //redirectig to the display page. In our case, it is index.php
         header("Location: ../gegevens.php");
     }
@@ -45,6 +53,7 @@ while($res = mysqli_fetch_array($result))
     $titel = $res['titel'];
     $lc = $res['leeftijdscategorienummer'];
 	$link = $res['imdblink'];
+	$image = $res['image'];
 }
 ?>
 <html>
@@ -57,7 +66,7 @@ while($res = mysqli_fetch_array($result))
     <a href="../gegevens.php">Home</a>
     <br/><br/>
 	
-    <form name="form1" method="post" action="filmedit.php">
+    <form name="form1" method="post" action="filmedit.php" enctype="multipart/form-data">
         <table border="0">
             <tr> 
                 <td>Titel</td>
@@ -75,6 +84,9 @@ while($res = mysqli_fetch_array($result))
                 <td>imdblink</td>
                 <td><input type="text" name="imdblink" value="<?php echo $link;?>"></td>
             </tr>
+			<tr>
+				  <td><input type="file" name="image" enctype="multipart/form-data"></td>
+		  	</tr>
             <tr>
                 <td><input type="hidden" name="id" value=<?php echo $_GET['id'];?>></td>
                 <td><input type="submit" name="update" value="Update"></td>

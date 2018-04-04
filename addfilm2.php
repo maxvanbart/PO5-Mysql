@@ -17,10 +17,11 @@ if(isset($_POST['Submit'])) {
     $titel = $_POST['titel'];
     $ln = $_POST['leeftijdscategorienummer'];
 	$link = $_POST['imdblink'];
+	$image = $_FILES['image']['name'];
 	
         
     // checking empty fields
-    if(empty($titel) || empty($ln) || empty($link)) {                
+    if(empty($titel) || empty($ln) || empty($link) || empty($image)) {                
         if(empty($titel)) {
             echo "<font color='red'>Titel field is empty.</font><br/>";
         }
@@ -42,18 +43,27 @@ if(isset($_POST['Submit'])) {
 		if($controllerows>0) {
       		echo "film exists";
    		} else {
-        	$a = mysqli_query($mysqli, "INSERT INTO film(titel,leeftijdscategorienummer,imdblink) VALUES('$titel','$ln','$link')");
+			$image = $_FILES['image']['name'];
+		  	// image file directory
+		  	$target = "image/".basename($image);
+	
+		  	if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
+		  		$msg = "Image uploaded successfully";
+		  	}else{
+		  		$msg = "Failed to upload image";
+		  	}
+
+          	$a = mysqli_query($mysqli, "INSERT INTO film(titel,leeftijdscategorienummer,imdblink,image) VALUES('$titel','$ln','$link','$image')");
+
+  	
 			//display success message
 	        echo "<font color='green'>Data added successfully.";
 			echo "<br/><a href='gegevens.php'>View Result</a>";
 			//printf ("New Record has id %d.\n", $mysqli->insert_id);
 			$idnummer = $mysqli->insert_id;
 			echo $idnummer;
-			
-   		}		
-
-
-    }
+   		}
+   	}		
 }
 ?>
 <?php else : ?>

@@ -18,11 +18,11 @@ $result2 = mysqli_query($mysqli, "SELECT * FROM waarschuwing");
     <a href="gegevens.php">Home</a>
     <br/><br/>
  
-    <form id="gegevens" action="addfilm2.php" method="post" name="form1">
+    <form id="gegevens" action="addfilm2.php" method="post" name="form1" enctype="multipart/form-data">
         <table id="gegevens">
             <tr> 
                 <td>Titel</td>
-                <td><input type="text" name="titel"></td>
+                <td><input type="text" name="titel" enctype="multipart/form-data"></td>
             </tr>
 			<tr>
 				<td>Leeftijdscategorie</td>
@@ -36,6 +36,9 @@ $result2 = mysqli_query($mysqli, "SELECT * FROM waarschuwing");
                 <td>imdblink</td>
                 <td><input type="text" name="imdblink"></td>
             </tr>
+		  	<tr>
+				  <td><input type="file" name="image" enctype="multipart/form-data"></td>
+		  	</tr>
             <tr> 
                 <td></td>
                 <td><input type="submit" name="Submit" value="Add"></td>

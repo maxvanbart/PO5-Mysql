@@ -19,7 +19,7 @@ $result2 = mysqli_query($mysqli, "SELECT * FROM waarschuwing");
     <a href="gegevens.php">Home</a>
     <br/><br/>
  
-    <form id="gegevens" action="addalles2.php" method="post" name="form1">
+    <form id="gegevens" action="addalles2.php" method="post" name="form1" enctype="multipart/form-data">
         <table id="gegevens">
             <tr> 
                 <td>Titel</td>
@@ -65,7 +65,11 @@ $result2 = mysqli_query($mysqli, "SELECT * FROM waarschuwing");
 				<td><input type="checkbox" name="waarschuwingsnummer" value="4">Grof taalgebruik<br></td>
 				<td><input type="checkbox" name="waarschuwingsnummer" value="5">Drugs- en/of alcoholgebruik<br></td>
 				<td><input type="checkbox" name="waarschuwingsnummer" value="6">Discriminatie</td>
-            </tr> 
+            </tr>
+			<tr>
+				  <td><input type="file" name="image" enctype="multipart/form-data"></td>
+		  	</tr>
+			<tr> 
                 <td></td>
                 <td><input type="submit" name="Submit" value="Add"></td>
             </tr>
